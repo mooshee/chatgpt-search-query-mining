@@ -1,19 +1,27 @@
 # ChatGPT Search Query Mining
 
-A Codex skill for recovering the background web-search query cluster from a ChatGPT conversation you control, then turning that cluster into a useful, source-backed content plan.
+> **Experimental:** This skill reads copied response data from a ChatGPT session you control. ChatGPT response formats are internal implementation details and may change without notice.
 
-The query list is a research artifact. It shows how ChatGPT broke down one question; it does not prove search volume, ranking difficulty, or demand. The skill deduplicates and groups the queries before any drafting so one good page can cover one reader need.
+An open Agent Skill from [Moosh Works](https://mooshworks.com/skills/) for extracting a background web-search query cluster from copied ChatGPT response data, then turning that cluster into a useful, source-backed content plan.
+
+The query list is a research artifact. It shows how ChatGPT broke down one question; it does not prove search volume, ranking difficulty, or demand. The skill deduplicates and groups the queries before any drafting so one strong page can cover one reader need.
 
 ## Install
 
-Clone the repository into your Codex skills directory:
+Install globally with the open `skills` CLI:
+
+```bash
+npx skills add mooshee/chatgpt-search-query-mining -g
+```
+
+For a manual Codex install, clone the repository into the shared Agent Skills directory:
 
 ```bash
 git clone https://github.com/mooshee/chatgpt-search-query-mining.git \
-  ~/.codex/skills/chatgpt-search-query-mining
+  "$HOME/.agents/skills/chatgpt-search-query-mining"
 ```
 
-Restart Codex if the skill is not discovered in the current session.
+Restart the host application if the skill is not discovered in the current session.
 
 ## Use
 
@@ -33,6 +41,12 @@ Only copy response data from a ChatGPT session you may inspect. Never share cook
 
 If you use a separate writing or publishing workflow, give it the approved query clusters and briefs rather than the raw ChatGPT response.
 
-## License
+## More Open Skills
 
-MIT
+Explore the [Moosh Works Open Skills catalog](https://mooshworks.com/skills/) or try [Product Demo](https://github.com/mooshee/product-demo), a scriptable skill for recording and rendering polished real-product walkthroughs.
+
+## Author & License
+
+Built by [Daniel Hallman](https://github.com/mooshee) at [Moosh Works](https://mooshworks.com/).
+
+MIT licensed.
