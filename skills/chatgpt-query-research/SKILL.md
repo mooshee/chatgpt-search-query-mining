@@ -1,11 +1,11 @@
 ---
-name: chatgpt-search-query-mining
-description: Recover the background web-search queries from a user-controlled ChatGPT conversation and turn them into a deduplicated, source-backed content plan. Use when a user wants to inspect a ChatGPT network response for `queries` or create useful niche content from that query cluster.
+name: chatgpt-query-research
+description: Extract a web-search query cluster from response data copied from a ChatGPT conversation the user controls, then turn it into a deduplicated, source-backed content plan. Use when a user wants to inspect a ChatGPT network response for `queries`, cluster the resulting research trail, or create useful niche content from it.
 ---
 
-# ChatGPT Search Query Mining
+# ChatGPT Query Research
 
-Use ChatGPT's own research trail as topic-discovery input. The extracted queries show how ChatGPT broke down one question; they do not prove keyword volume, ranking difficulty, or demand.
+Use ChatGPT's own research trail as topic-discovery input. The extracted queries show how ChatGPT broke down one question; they do not prove keyword volume, ranking difficulty, or demand. This workflow is experimental because the capture step depends on an internal response shape that may change.
 
 ## Capture the query cluster
 

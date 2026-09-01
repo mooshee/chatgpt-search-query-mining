@@ -1,0 +1,4 @@
+interface:
+  display_name: "ChatGPT Query Research"
+  short_description: "Turn ChatGPT search trails into content briefs"
+  default_prompt: "Use $chatgpt-query-research to extract this ChatGPT query cluster and turn it into a source-backed content plan."
