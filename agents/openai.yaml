@@ -1,0 +1,4 @@
+interface:
+  display_name: "ChatGPT Search Query Mining"
+  short_description: "Turn ChatGPT searches into content briefs"
+  default_prompt: "Use $chatgpt-search-query-mining to extract this ChatGPT search-query cluster and turn it into a source-backed content plan."
