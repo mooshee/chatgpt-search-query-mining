@@ -1,0 +1,56 @@
+name: Validate public skill
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate skill package layout
+        shell: bash
+        run: |
+          test ! -f SKILL.md
+          test -f skills/chatgpt-query-research/SKILL.md
+          test -f skills/chatgpt-query-research/agents/openai.yaml
+          test -x skills/chatgpt-query-research/scripts/extract_queries.py
+          grep -q '^name: chatgpt-query-research$' skills/chatgpt-query-research/SKILL.md
+          grep -q '\$chatgpt-query-research' skills/chatgpt-query-research/agents/openai.yaml
+
+      - name: Compile and smoke-test the parser
+        shell: bash
+        run: |
+          python3 -m py_compile skills/chatgpt-query-research/scripts/extract_queries.py
+          cat > /tmp/chatgpt-query-sample.json <<'JSON'
+          {
+            "queries": [
+              "alpha question",
+              "alpha question",
+              {"query": "beta question"},
+              "https://example.com/not-a-query"
+            ]
+          }
+          JSON
+          python3 skills/chatgpt-query-research/scripts/extract_queries.py \
+            /tmp/chatgpt-query-sample.json --format json > /tmp/queries.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          actual = json.loads(Path("/tmp/queries.json").read_text())
+          assert actual == ["alpha question", "beta question"], actual
+          PY
