@@ -49,6 +49,6 @@ Return a table with these fields:
 | Evidence needed | Current primary sources, data, examples, or expert input needed before drafting |
 | Internal destination | The relevant product, service, or pillar page, when one exists |
 
-Ask for the user's editorial approval before bulk drafting or publishing. When drafting is requested, write original, source-backed pieces that satisfy the clustered intent; do not send every raw query to a bulk article generator unchanged. Do not publish, schedule, or submit content without the user's authorization.
+Ask for the user's editorial approval before bulk drafting or publishing. When drafting is requested, write original, source-backed pieces that satisfy the clustered intent; do not send every raw query to a writing system unchanged. Do not publish, schedule, or submit content without the user's authorization.
 
-If the user chooses RankDesk or another content tool, send only the approved clusters and briefs. Keep the raw ChatGPT network response local; the content tool does not need it.
+If the user hands the plan to a separate writing or publishing workflow, send only the approved clusters and briefs in a format that workflow accepts. Keep the raw ChatGPT network response local; downstream systems do not need it.

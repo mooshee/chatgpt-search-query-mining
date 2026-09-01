@@ -31,7 +31,7 @@ python3 scripts/extract_queries.py response.txt --format markdown
 
 Only copy response data from a ChatGPT session you may inspect. Never share cookies, authorization values, request headers, or a full HAR with a content service.
 
-If you use RankDesk or another writing tool, give it the approved query clusters and briefs rather than the raw ChatGPT response.
+If you use a separate writing or publishing workflow, give it the approved query clusters and briefs rather than the raw ChatGPT response.
 
 ## License
 
