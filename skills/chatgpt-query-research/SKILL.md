@@ -5,7 +5,7 @@ description: Extract a web-search query cluster from response data copied from a
 
 # ChatGPT Query Research
 
-Use ChatGPT's own research trail as topic-discovery input. The extracted queries show how ChatGPT broke down one question; they do not prove keyword volume, ranking difficulty, or demand. This workflow is experimental because the capture step depends on an internal response shape that may change.
+Use ChatGPT's own research trail as topic-discovery input. The extracted queries show how ChatGPT broke down one question; they do not prove keyword volume, ranking difficulty, or demand. The capture step depends on an internal response shape that may change.
 
 ## Capture the query cluster
 

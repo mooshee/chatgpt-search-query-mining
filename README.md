@@ -1,8 +1,8 @@
-# ChatGPT Query Research
+# ChatGPT Query Research: Turn Search Queries Into a Content Plan
 
-An open Agent Skill from [Moosh Works](https://mooshworks.com/skills/) for extracting a web-search query cluster from copied ChatGPT response data, then turning that cluster into a useful, source-backed content plan.
+Copy response data from a ChatGPT conversation you control. This open Agent Skill from [Moosh Works](https://mooshworks.com/skills/) extracts the web-search queries, removes duplicates, groups related searches by reader intent, and turns the result into a source-backed content plan.
 
-The query-mining workflow treats the query list as a research artifact. It shows how ChatGPT broke down one question; it does not prove search volume, ranking difficulty, or demand. The skill deduplicates and groups the queries before any drafting so one strong page can cover one reader need.
+The query list shows how ChatGPT broke down one question. It does not show search volume, ranking difficulty, or market demand, so use it to find content angles and then check them against current search results and primary sources.
 
 ## Install
 
@@ -34,9 +34,9 @@ Only copy response data from a ChatGPT session you may inspect. Never share cook
 
 If you use a separate writing or publishing workflow, give it the approved query clusters and briefs rather than the raw ChatGPT response.
 
-## More Open Skills
+## Need the Demo Skill?
 
-Explore the [Moosh Works Open Skills catalog](https://mooshworks.com/skills/) or try [Scripted Product Demo](https://github.com/mooshee/product-demo), a telemetry-driven skill for recording and rendering polished real-product walkthroughs.
+[Scripted Product Demo](https://github.com/mooshee/product-demo) records one product walkthrough and renders it with camera moves, cursor motion, click feedback, privacy masks, and 6 supported layouts. See both install commands on the [Moosh Works skills page](https://mooshworks.com/skills/).
 
 ## Author & License
 
