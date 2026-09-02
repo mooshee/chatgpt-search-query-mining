@@ -1,7 +1,5 @@
 # ChatGPT Query Research
 
-> **Experimental:** This skill reads copied response data from a ChatGPT session you control. ChatGPT response formats are internal implementation details and may change without notice.
-
 An open Agent Skill from [Moosh Works](https://mooshworks.com/skills/) for extracting a web-search query cluster from copied ChatGPT response data, then turning that cluster into a useful, source-backed content plan.
 
 The query-mining workflow treats the query list as a research artifact. It shows how ChatGPT broke down one question; it does not prove search volume, ranking difficulty, or demand. The skill deduplicates and groups the queries before any drafting so one strong page can cover one reader need.
