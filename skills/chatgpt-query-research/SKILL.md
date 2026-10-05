@@ -22,10 +22,10 @@ If no `queries` field appears, confirm that ChatGPT actually searched the web, k
 For a copied JSON, JSONL, or SSE response, run:
 
 ```bash
-python3 scripts/extract_queries.py response.txt --format markdown
+bin/query-miner response.txt --format markdown
 ```
 
-Use `-` to read from standard input. The script finds nested `queries` fields, extracts common query shapes, preserves first-seen order, and removes duplicates.
+Use `-` to read from standard input. The compiled native tool finds nested `queries` fields, extracts common query shapes, preserves first-seen order, and removes duplicates.
 
 Before drafting:
 
