@@ -27,7 +27,7 @@ Use $chatgpt-query-research to extract this ChatGPT search-query cluster and tur
 From a repository checkout, the included parser accepts JSON, JSON Lines, and SSE response data:
 
 ```bash
-python3 skills/chatgpt-query-research/scripts/extract_queries.py response.txt --format markdown
+bin/query-miner response.txt --format markdown
 ```
 
 Only copy response data from a ChatGPT session you may inspect. Never share cookies, authorization values, request headers, or a full HAR with a content service.

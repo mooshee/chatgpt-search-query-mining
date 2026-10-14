@@ -190,6 +190,18 @@ pub fn render(queries: &[String], format: &str) -> String {
     }
 }
 
+pub fn extract_queries_from_raw(raw: &str) -> Vec<String> {
+    let docs = parse_documents(raw);
+    let mut extracted = Vec::new();
+    for d in &docs {
+        find_queries(d, &mut extracted);
+    }
+    if extracted.is_empty() && docs.len() == 1 {
+        find_direct_query_value(&docs[0], &mut extracted);
+    }
+    normalize_queries(&extracted)
+}
+
 fn main() -> io::Result<()> {
     let cli = Cli::parse();
     let raw = if cli.input == "-" {
@@ -200,16 +212,7 @@ fn main() -> io::Result<()> {
         fs::read_to_string(PathBuf::from(&cli.input))?
     };
 
-    let docs = parse_documents(&raw);
-    let mut extracted = Vec::new();
-    for d in &docs {
-        find_queries(d, &mut extracted);
-    }
-    if extracted.is_empty() && docs.len() == 1 {
-        find_direct_query_value(&docs[0], &mut extracted);
-    }
-
-    let queries = normalize_queries(&extracted);
+    let queries = extract_queries_from_raw(&raw);
     if queries.is_empty() {
         eprintln!("No queries found. Copy a response body that contains a `queries` field.");
         std::process::exit(1);
@@ -225,24 +228,63 @@ mod tests {
 
     #[test]
     fn test_extract_queries_json() {
-        let json_text = r#"{"queries": ["mac mini m4", "mac studio deal", "mac mini m4"]}"#;
-        let docs = parse_documents(json_text);
-        assert_eq!(docs.len(), 1);
-        let mut extracted = Vec::new();
-        find_queries(&docs[0], &mut extracted);
-        let norm = normalize_queries(&extracted);
-        assert_eq!(norm, vec!["mac mini m4", "mac studio deal"]);
+        let json_text = r#"{
+            "queries": [
+                "mac mini m4",
+                "  Mac   Mini M4 ",
+                {"query": "mac studio deal"},
+                {"q": "apple refurb store"},
+                {"search_query": "m4 pro benchmark"},
+                {"text": "mac mini ports"},
+                "https://example.com/not-a-query",
+                "http://example.com/also-not-a-query",
+                "   "
+            ]
+        }"#;
+        let norm = extract_queries_from_raw(json_text);
+        assert_eq!(
+            norm,
+            vec![
+                "mac mini m4",
+                "mac studio deal",
+                "apple refurb store",
+                "m4 pro benchmark",
+                "mac mini ports"
+            ]
+        );
     }
 
     #[test]
-    fn test_extract_queries_sse() {
-        let sse_text = "data: {\"queries\": [\"test query 1\"]}\n\ndata: [DONE]\n";
-        let docs = parse_documents(sse_text);
-        assert_eq!(docs.len(), 1);
-        let mut extracted = Vec::new();
-        find_queries(&docs[0], &mut extracted);
-        let norm = normalize_queries(&extracted);
-        assert_eq!(norm, vec!["test query 1"]);
+    fn test_extract_queries_sse_and_jsonl() {
+        let sse_text = "data: {\"queries\": [\"test query 1\"]}\n{\"nested\": {\"Queries\": [\"test query 2\"]}}\n\ndata: [DONE]\n";
+        let norm = extract_queries_from_raw(sse_text);
+        assert_eq!(norm, vec!["test query 1", "test query 2"]);
+    }
+
+    #[test]
+    fn test_extract_embedded_queries_fragment() {
+        let fragment = r#"event: delta
+some_prefix "queries": ["embedded one", {"query": "embedded two"}], trailing_tokens"#;
+        let norm = extract_queries_from_raw(fragment);
+        assert_eq!(norm, vec!["embedded one", "embedded two"]);
+    }
+
+    #[test]
+    fn test_direct_query_value_and_arbitrary_json_rejection() {
+        let direct_list = r#"["direct one", {"q": "direct two"}]"#;
+        assert_eq!(
+            extract_queries_from_raw(direct_list),
+            vec!["direct one", "direct two"]
+        );
+
+        let direct_obj = r#"{"search_query": "single object query"}"#;
+        assert_eq!(
+            extract_queries_from_raw(direct_obj),
+            vec!["single object query"]
+        );
+
+        let unrelated = r#"{"status": "ok", "items": [{"id": 1, "name": "not a query"}]}"#;
+        assert!(extract_queries_from_raw(unrelated).is_empty());
     }
 
     #[test]
@@ -253,6 +295,10 @@ mod tests {
 
         let txt = render(&queries, "text");
         assert_eq!(txt, "q1\nq2\n");
+
+        let json_out = render(&queries, "json");
+        let parsed: Vec<String> = serde_json::from_str(&json_out).unwrap();
+        assert_eq!(parsed, queries);
 
         let csv_out = render(&queries, "csv");
         assert!(csv_out.contains("query\nq1\nq2\n"));
